@@ -1,16 +1,18 @@
 ﻿@page "/counter"
 
-<h1>Counter</h1>
+<h1>@model.Title</h1>
 
-<p>Current count: @currentCount</p>
+<input type="text" class="form-control" @oninput=@SetUsername placeholder="Username">
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<p style="margin-top:50px;">Current count: @model.Count</p>
 
-@code {
-    private int currentCount = 0;
+<button class="btn btn-primary" @onclick="IncrementCount">Increment Count</button>
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
+
+<h3 style="margin-top:50px;">@model.UTC</h3>
+
+
+<button style="margin-top:50px;" class="btn btn-primary" @onclick=@ShowAlert>Trigger Alert</button>
+
+
+<button style="margin-top:50px;" class="btn btn-primary" @onclick=@(() => SelectItem(Guid.NewGuid().ToString()))>NavigateToItem</button>
