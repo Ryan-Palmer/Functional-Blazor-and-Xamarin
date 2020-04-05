@@ -1,4 +1,4 @@
-﻿namespace SurveyIt.Test.Caching
+﻿namespace FuntionalBlazor.Test.Caching
 
 module Cache_Test =
     open NUnit.Framework

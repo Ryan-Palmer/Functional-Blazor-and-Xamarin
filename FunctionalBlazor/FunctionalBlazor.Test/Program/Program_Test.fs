@@ -1,4 +1,4 @@
-﻿namespace SurveyIt.Test.Program
+﻿namespace FuntionalBlazor.Test.Program
 
 module Program_Test =
     open NUnit.Framework
