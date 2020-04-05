@@ -23,9 +23,14 @@ type FunctionRoot
         
    
     // Compose and Initalise Program
+    let counterPageUpdate = Program.Pages.Counter.update Guid.NewGuid
+    let programInitialModel = 
+        Guid.NewGuid()
+        |> string
+        |> Program.init
 
     let program =
-        Program.update programCache (Program.init (string (Guid.NewGuid())))
+        Program.update programCache counterPageUpdate programInitialModel
     
     do program.Post(ProgramMsg.Init)
 

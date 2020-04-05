@@ -16,6 +16,7 @@ module Program =
 
     let update
         (modelCache : ICache<ProgramModel>) 
+        (counterPageUpdate : MailboxProcessor<CounterPageUpdate>)
         initialState =
         MailboxProcessor<ProgramMsg>.Start (fun inbox ->
             
@@ -34,8 +35,12 @@ module Program =
                     let! newModel, newCommand = 
                         async {
                             match message with
-                            | ProgramMsg.Init -> return model, Cmd.none
-                            | ProgramMsg.CounterPageMessage msg -> return model, Cmd.none 
+                            | ProgramMsg.Init -> 
+                                let! counterPage, counterCmd = counterPageUpdate.PostAndAsyncReply (fun replyChannel -> model.CounterPage, CounterPageMsg.Init, replyChannel)
+                                return { model with CounterPage = counterPage }, (Cmd.map ProgramMsg.CounterPageMessage counterCmd)
+                            | ProgramMsg.CounterPageMessage msg -> 
+                                let! counterPage, counterCmd = counterPageUpdate.PostAndAsyncReply (fun replyChannel -> model.CounterPage, msg, replyChannel)
+                                return { model with CounterPage = counterPage }, (Cmd.map ProgramMsg.CounterPageMessage counterCmd)
                             | ProgramMsg.ProgramError ex -> 
                                 return model, Cmd.none
                         }
