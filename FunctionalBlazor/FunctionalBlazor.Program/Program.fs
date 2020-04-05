@@ -3,7 +3,7 @@
 module Program =
     open ProgramTypes
     open FunctionalBlazor.Caching.CachingTypes
-    //open FunctionalBlazor.Program.Pages
+    open FunctionalBlazor.Program.Pages
     open System.Diagnostics
     open FunctionalBlazor.Common.Ioc
     open FunctionalBlazor.Common
@@ -11,6 +11,7 @@ module Program =
     let init id = 
         {
             Id = id
+            CounterPage = Counter.init
         }
 
     let update
@@ -34,6 +35,7 @@ module Program =
                         async {
                             match message with
                             | ProgramMsg.Init -> return model, Cmd.none
+                            | ProgramMsg.CounterPageMessage msg -> return model, Cmd.none 
                             | ProgramMsg.ProgramError ex -> 
                                 return model, Cmd.none
                         }
@@ -44,9 +46,9 @@ module Program =
                     // Run commands - this only happens in this updater as it is the top of the state pyramid
                     Cmd.exec inbox.Post newCommand
 
-                    //// Print message
+                    //// Print message (optional)
                     Debug.WriteLine (sprintf "***RECEIVED MESSAGE *** %A" message)
-                    //// Print new model
+                    //// Print new model (optional)
                     Debug.WriteLine (sprintf "***MODEL UPDATED *** %A" newModel)
 
                     // Wait for next message

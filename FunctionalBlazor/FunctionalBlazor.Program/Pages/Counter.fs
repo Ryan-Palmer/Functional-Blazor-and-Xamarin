@@ -1,0 +1,47 @@
+﻿namespace FunctionalBlazor.Program.Pages
+
+module Counter =
+    open FunctionalBlazor.Program
+    open System
+    open FunctionalBlazor.Program.ProgramTypes
+
+
+    let init : CounterPageModel =
+        {
+            Title = "Counter"
+            Username = String.Empty
+            UTC = "Initialising clock"
+            Count = 0
+            PendingAlert = None
+            PendingNavigation = None
+        }
+
+
+    let update
+        createGuid =
+        MailboxProcessor<CounterPageUpdate>.Start (fun inbox ->
+        let rec innerLoop () =            
+            async {
+
+                let! (model, message, replyChannel) = inbox.Receive()
+            
+                let newModel, newCmd =
+                    match message with
+                    | CounterPageMsg.Init -> model, Cmd.none
+                    | CounterPageMsg.IncreaseCount ->  { model with Count = model.Count + 1 }, Cmd.none
+                    | CounterPageMsg.ItemSelected id -> { model with PendingNavigation = Some ((sprintf "items/%s" id), createGuid()) }, Cmd.none
+                    | CounterPageMsg.SetUsername usr -> { model with Title = (sprintf "Hello %s!") usr}, Cmd.none
+                    | CounterPageMsg.NavigationComplete -> { model with PendingNavigation = None }, Cmd.none
+                    | CounterPageMsg.AlertShown -> { model with PendingAlert = None }, Cmd.none
+                    | CounterPageMsg.CounterPageError ex -> 
+                        let newModel =
+                            match model.PendingAlert with
+                            | Some _ -> model
+                            | None -> { model with PendingAlert = Some(ex.Message, (createGuid())) }
+                        newModel, Cmd.none
+
+                replyChannel.Reply(newModel,newCmd)
+                do! innerLoop ()
+            }
+        innerLoop ())
+        

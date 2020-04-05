@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using static FunctionalBlazor.Program.Startup;
+using static FunctionalBlazor.Caching.Startup;
+using static FunctionalBlazor.Composition.Startup;
 
-namespace FunctionalBlazor
+namespace FunctionalBlazor.Web
 {
     public class Startup
     {
@@ -25,6 +22,11 @@ namespace FunctionalBlazor
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Setup libs
+            services.ConfigureCaching();
+            services.ConfigureProgram();
+            services.ConfigureFunctions();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
         }

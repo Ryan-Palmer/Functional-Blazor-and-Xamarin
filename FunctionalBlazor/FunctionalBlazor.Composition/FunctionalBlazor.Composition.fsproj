@@ -6,16 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Cmd.fs" />
-    <Compile Include="ProgramTypes.fs" />
-    <Compile Include="Pages\Counter.fs" />
-    <Compile Include="Program.fs" />
+    <Compile Include="FunctionRoot.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FunctionalBlazor.Caching\FunctionalBlazor.Caching.fsproj" />
     <ProjectReference Include="..\FunctionalBlazor.Common\FunctionalBlazor.Common.fsproj" />
+    <ProjectReference Include="..\FunctionalBlazor.Program\FunctionalBlazor.Program.fsproj" />
   </ItemGroup>
+
 
 </Project>

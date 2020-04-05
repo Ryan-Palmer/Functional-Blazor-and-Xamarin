@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8603;CS8618;CS8625;CS8613;CS8509</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FunctionalBlazor.Caching\FunctionalBlazor.Caching.fsproj" />
+    <ProjectReference Include="..\FunctionalBlazor.Common\FunctionalBlazor.Common.fsproj" />
+    <ProjectReference Include="..\FunctionalBlazor.Composition\FunctionalBlazor.Composition.fsproj" />
+    <ProjectReference Include="..\FunctionalBlazor.Program\FunctionalBlazor.Program.fsproj" />
+  </ItemGroup>
+
+</Project>
