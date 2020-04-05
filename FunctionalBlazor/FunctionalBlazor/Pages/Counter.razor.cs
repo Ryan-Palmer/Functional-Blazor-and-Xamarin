@@ -99,6 +99,13 @@ namespace FunctionalBlazor.Web.Pages
             }
         }
 
+        void SetUsername(ChangeEventArgs args)
+        {
+            Program?.Post(
+                ProgramMsg.NewCounterPageMessage(
+                    CounterPageMsg.NewSetUsername((string)args.Value)));
+        }
+
         void SelectItem(string itemId)
         {
             Program?.Post(

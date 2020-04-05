@@ -11,12 +11,13 @@ module CounterPage_Test =
 
     let testId = Guid.NewGuid()
     let createGuid () = testId
+    let tsGen onUpdated dispatch = ()
 
     [<Test>][<AutoData>]
     let ``Init returns the model unchanged`` 
         (inputModel : CounterPageModel) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel -> inputModel, CounterPageMsg.Init, asyncReplyChannel)
@@ -33,7 +34,7 @@ module CounterPage_Test =
 
         let inputModel = { inputModel with PendingNavigation = Some (path, navId) }
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.NavigationComplete, asyncReplyChannel)
@@ -46,7 +47,7 @@ module CounterPage_Test =
     let ``NavigationComplete returns no further commands`` 
         (inputModel : CounterPageModel) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.NavigationComplete, asyncReplyChannel)
@@ -61,7 +62,7 @@ module CounterPage_Test =
 
         let inputModel = { inputModel with Count = 0 }
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.IncreaseCount, asyncReplyChannel)
@@ -74,7 +75,7 @@ module CounterPage_Test =
     let ``IncreaseCount returns no further commands`` 
         (inputModel : CounterPageModel) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.IncreaseCount, asyncReplyChannel)
@@ -90,7 +91,7 @@ module CounterPage_Test =
 
         let inputModel = { inputModel with Title = String.Empty }
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.SetUsername username, asyncReplyChannel)
@@ -104,7 +105,7 @@ module CounterPage_Test =
         (inputModel : CounterPageModel)
         (username : string) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.SetUsername username, asyncReplyChannel)
@@ -120,7 +121,7 @@ module CounterPage_Test =
 
         let inputModel = { inputModel with PendingNavigation = None}
        
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
        
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.ItemSelected itemId, asyncReplyChannel)
@@ -137,7 +138,7 @@ module CounterPage_Test =
         (inputModel : CounterPageModel)
         (itemId : ItemId) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.ItemSelected itemId, asyncReplyChannel)
@@ -154,7 +155,7 @@ module CounterPage_Test =
 
         let inputModel = { inputModel with PendingAlert = Some (alert, alertId) }
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel -> inputModel, CounterPageMsg.AlertShown, asyncReplyChannel)
@@ -167,7 +168,7 @@ module CounterPage_Test =
     let ``AlertShown returns no further commands`` 
         (inputModel : CounterPageModel) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel -> inputModel, CounterPageMsg.AlertShown, asyncReplyChannel)
@@ -183,7 +184,7 @@ module CounterPage_Test =
 
         let inputModel = { inputModel with PendingAlert = None}
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let outputModel, _ = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.CounterPageError error, asyncReplyChannel)
@@ -199,7 +200,7 @@ module CounterPage_Test =
         (inputModel : CounterPageModel) 
         (error : exn) =
 
-        let sut = Counter.update createGuid
+        let sut = Counter.update createGuid tsGen
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.CounterPageError error, asyncReplyChannel)

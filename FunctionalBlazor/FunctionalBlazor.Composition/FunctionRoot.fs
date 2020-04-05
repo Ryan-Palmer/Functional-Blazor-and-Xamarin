@@ -21,9 +21,19 @@ type FunctionRoot
     // The wrapper classes are registered with ASP.Net Core's DI in their project's Startup module.
     let container = new Dictionary<string,obj>() :> IDictionary<string,obj>
         
+
+    let timeStringGenerator
+        onUpdated
+        dispatch =
+        async {
+            while true do
+                do! Async.Sleep 1000
+                dispatch (onUpdated DateTime.UtcNow)
+            } |> Async.Start
+
    
     // Compose and Initalise Program
-    let counterPageUpdate = Program.Pages.Counter.update Guid.NewGuid
+    let counterPageUpdate = Program.Pages.Counter.update Guid.NewGuid timeStringGenerator
     let programInitialModel = 
         Guid.NewGuid()
         |> string

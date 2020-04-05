@@ -24,6 +24,7 @@ module ProgramTypes =
 
     type CounterPageMsg =
         | Init
+        | TimeChanged of DateTime
         | IncreaseCount
         | SetUsername of string
         | ItemSelected of ItemId
