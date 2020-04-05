@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <WarningsAsErrors>FS0025</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Cmd.fs" />
+    <Compile Include="ProgramTypes.fs" />
+    <Compile Include="Program.fs" />
+    <Compile Include="Startup.fs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\FunctionalBlazor.Caching\FunctionalBlazor.Caching.fsproj" />
+    <ProjectReference Include="..\FunctionalBlazor.Common\FunctionalBlazor.Common.fsproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
+</Project>
