@@ -8,7 +8,6 @@ module ProgramTypes =
     type CounterPageModel =
         {
             Title : string
-            Username : string
             UTC : string
             Count : int
             PendingAlert : (string * Guid) option

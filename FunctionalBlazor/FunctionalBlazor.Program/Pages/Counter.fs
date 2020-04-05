@@ -9,7 +9,6 @@ module Counter =
     let init : CounterPageModel =
         {
             Title = "Counter"
-            Username = String.Empty
             UTC = "Initialising clock"
             Count = 0
             PendingAlert = None

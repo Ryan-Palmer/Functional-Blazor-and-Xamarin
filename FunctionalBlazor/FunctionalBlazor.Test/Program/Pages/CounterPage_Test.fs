@@ -56,6 +56,97 @@ module CounterPage_Test =
 
 
     [<Test>][<AutoData>]
+    let ``IncreaseCount returns model with incremented count`` 
+        (inputModel : CounterPageModel) =
+
+        let inputModel = { inputModel with Count = 0 }
+
+        let sut = Counter.update createGuid
+
+        let outputModel, _ = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.IncreaseCount, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        outputModel |> shouldEqual { inputModel with Count = 1 }
+
+
+    [<Test>][<AutoData>]
+    let ``IncreaseCount returns no further commands`` 
+        (inputModel : CounterPageModel) =
+
+        let sut = Counter.update createGuid
+
+        let _, nextCmd = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.IncreaseCount, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        nextCmd |> shouldEqual Cmd.none
+
+
+    [<Test>][<AutoData>]
+    let ``SetUsername returns model with Welcome title`` 
+        (inputModel : CounterPageModel)
+        (username : string) =
+
+        let inputModel = { inputModel with Title = String.Empty }
+
+        let sut = Counter.update createGuid
+
+        let outputModel, _ = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.SetUsername username, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        outputModel |> shouldEqual { inputModel with Title  = (sprintf "Hello %s!" username) }
+
+
+    [<Test>][<AutoData>]
+    let ``SetUsername returns no further commands`` 
+        (inputModel : CounterPageModel)
+        (username : string) =
+
+        let sut = Counter.update createGuid
+
+        let _, nextCmd = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.SetUsername username, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        nextCmd |> shouldEqual Cmd.none
+
+
+    [<Test>][<AutoData>]
+    let ``ItemSelected returns model with Pending nav`` 
+        (inputModel : CounterPageModel)
+        (itemId : ItemId) =
+
+        let inputModel = { inputModel with PendingNavigation = None}
+       
+        let sut = Counter.update createGuid
+       
+        let outputModel, _ = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.ItemSelected itemId, asyncReplyChannel)
+            |> Async.RunSynchronously
+       
+        let (path, id) = outputModel.PendingNavigation.Value
+        id |> shouldEqual testId
+        path |> shouldEqual (sprintf "items/%s" itemId)
+       
+
+
+    [<Test>][<AutoData>]
+    let ``ItemSelected returns no further commands`` 
+        (inputModel : CounterPageModel)
+        (itemId : ItemId) =
+
+        let sut = Counter.update createGuid
+
+        let _, nextCmd = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.ItemSelected itemId, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        nextCmd |> shouldEqual Cmd.none
+
+
+    [<Test>][<AutoData>]
     let ``AlertShown returns model without pending dialog`` 
         (inputModel : CounterPageModel)
         (alertId : Guid)
