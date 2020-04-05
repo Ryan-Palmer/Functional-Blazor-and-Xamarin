@@ -9,6 +9,7 @@
     <Compile Include="Common\AutoMoqDataAttribute.fs" />
     <Compile Include="Common\AutoMoqInlineDataAttribute.fs" />
     <Compile Include="Common\FoqNetCoreCompat.fs" />
+    <Compile Include="Program\Pages\CounterPage_Test.fs" />
     <Compile Include="Program\Program_Test.fs" />
     <Compile Include="Caching\MessageManager_Test.fs" />
     <Compile Include="Caching\CacheManager_Test.fs" />
@@ -35,10 +36,6 @@
     <ProjectReference Include="..\FunctionalBlazor.Caching\FunctionalBlazor.Caching.fsproj" />
     <ProjectReference Include="..\FunctionalBlazor.Common\FunctionalBlazor.Common.fsproj" />
     <ProjectReference Include="..\FunctionalBlazor.Program\FunctionalBlazor.Program.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Program\Pages\" />
   </ItemGroup>
 
 </Project>
