@@ -34,21 +34,19 @@ I achieve this behaviour again using an F# Mailbox processor. It receives messag
 
 It posts the newly generated model to the Razor components using one of the observable caches described above.
 
-The implementation of this is in the Program project and Module.
+It is also set up to print each received message and new model to the debug console so you can see the state transitions. This makes debugging very easy as you can see every change.
 
-The Razor component takes the appropriate part of the Program model and overwrites its current page model, then calls StateHasChanged() to refresh the UI.
+In this example project the clock label updates cause it to trigger a print every second, normally it would be spamming like that.
 
-The Razor component subscribes to the model updates in OnInitialisedAsync and disposes the description in its Dispose method which is automatically called when the user navigates away from the page.
+The implementation of all this is in the Program project and Module.
 
-You can see this in the nested Counter.Razor.cs code file.
-
-UI events are hooked up to methods which send messages to the Program Mailbox. you can see this in the Counter.razor file.
 
 ### Wiring
 
 This is all hooked up in the ASP.Net Core Startup file using a couple of extension methods which call Startup on the Cache, Program and Composition projects, allowing them to register their implementations.
 
 The final step is to compose all of the F# functions and register the Program mailbox which happens in the FunctionRoot module of the Composition project.
+
 
 ### Notes
 
@@ -66,11 +64,19 @@ That said however, I think Blazor is supposed to be very efficient at only sendi
 
 One thing you might potetially want to be careful of is stuff like the clock display I have put on the Counter page. This is a Cmd.ofSub subscription set up in the Counter page's Init handler. It pumps a TimeChanged message into the updater every second, which sends a new model update to the UI. In this case it is a tiny text change but I imagine if it was a large update or happened at a fast enough rate you could hit some kind of issue. Maybe it would be fine, I just don't have any data to know. I have installed Application Insights on my own project so that I can keep an eye on the data flow and compute usage. The new live metrics are great to keep an eye on it during testing.
 
-#### Page updaters
+#### Page update functions
 
 I implement the child page updaters as Mailboxes as well. The reason for this is that I often use them to hold IDisposable tokens from cache or message subscriptions. It allows them to be held outside the page model. If you don't need that functionality or you don't mind stashing them in the model you could just use plain old functions.
 
 #### UI Updates
+
+The Razor component takes the appropriate part of the Program model and overwrites its current page model, then calls StateHasChanged() to refresh the UI.
+
+The Razor component subscribes to the model updates in OnInitialisedAsync and disposes the description in its Dispose method which is automatically called when the user navigates away from the page.
+
+You can see this in the nested Counter.Razor.cs code file.
+
+UI events are hooked up to methods which send messages to the Program Mailbox. you can see this in the Counter.razor file.
 
 The text box is hooked up one way to send text changes to the update function. If you wanted to also hook a text property in the model up to the text box contents (i.e. a two way binding) you would probably need to debounce it somehow to stop it looping, there are lots of easy ways to achieve that.
 
