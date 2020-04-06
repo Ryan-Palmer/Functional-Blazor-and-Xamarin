@@ -22,7 +22,6 @@
     <PackageReference Include="AutoFixture.NUnit3" Version="4.11.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.2" />
     <PackageReference Include="FsUnit" Version="3.8.1" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.8.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.0-preview-20200226-03" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Moq.FSharp.Extensions" Version="0.2.0" />
