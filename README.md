@@ -1,6 +1,6 @@
 # FunctionalBlazor
 
-This is a template for Blazor applications that uses a functional reactive style to update the UI.
+This is a template for Blazor applications which uses a functional reactive style to update the UI.
 
 It has no external dependencies outside of ASP.Net Core and F# (apart from the unit testing project's tools).
 
