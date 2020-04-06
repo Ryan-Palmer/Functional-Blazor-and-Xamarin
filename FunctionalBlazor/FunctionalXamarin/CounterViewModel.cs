@@ -2,8 +2,6 @@
 using GalaSoft.MvvmLight.Command;
 using Microsoft.FSharp.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Essentials;
 using static FunctionalBlazor.Caching.CachingTypes;
 using static FunctionalBlazor.Program.ProgramTypes;
@@ -29,6 +27,36 @@ namespace FunctionalXamarin
         {
             _modelCache = modelCache;
             _program = program;
+        }
+
+        private string _title = string.Empty;
+        public string Title
+        {
+            get => _title;
+            private set
+            {
+                Set(ref _title, value);
+            }
+        }
+
+        private string _utc = string.Empty;
+        public string Utc
+        {
+            get => _utc;
+            private set
+            {
+                Set(ref _utc, value);
+            }
+        }
+
+        private int _count;
+        public int Count
+        {
+            get => _count;
+            private set
+            {
+                Set(ref _count, value);
+            }
         }
 
         private RelayCommand<string>? _setUsername;
@@ -77,7 +105,9 @@ namespace FunctionalXamarin
             {
                 void UpdateModel(CounterPageModel model)
                 {
-                    
+                    Title = model.Title;
+                    Utc = model.UTC;
+                    Count = model.Count;
                 }
 
                 void TryShowPendingDialog(CounterPageModel model)
