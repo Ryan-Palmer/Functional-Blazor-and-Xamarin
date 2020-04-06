@@ -1,6 +1,6 @@
 # FunctionalBlazor
 
-This is a template for Blazor applications that uses a functional reactive style to update the UI.
+This is a template for Blazor applications which uses a functional reactive style to update the UI.
 
 It has no external dependencies outside of ASP.Net Core and F# (apart from the unit testing project's tools).
 
@@ -54,7 +54,7 @@ The final step is to compose all of the F# functions and register the Program ma
 
 Because everything is registered as Scoped, each Blazor Circuit (i.e. user session) gets it's own private Program loop and state. You can check this by looking at the Program model's Id when debugging. 
 
-You could however easily share state between circuits if the scoped Program loops access singleton / static data. This could allow for live collaborative working in theory.
+You could however easily share state between circuits if the scoped Program loops access a shared / global data resource. This could allow for live collaborative working in theory.
 
 #### Server-Side Blazor Considerations
 
@@ -91,7 +91,7 @@ Similarly the navigation pattern is just a quick example of a possible way to ha
 #### Xamarin and mixing languages
 
 This actually grew out of how I have been writing my Xamarin applications. I follow the same pattern but use Autofac for DI and MVVMLight for the model state binding. I like using C# on the front end because the tooling is rich and well supported, but F# for
-the rest of my applications as, well, it's just awesome! I feel this approach currently offers the best of both worlds. If anyone is interested I could put up an similar example Xamarin project.
+the rest of my applications as, well, it's just awesome! I feel this approach currently offers the best of both worlds. If anyone is interested I could put up a similar example Xamarin project.
 
 #### Tests
 
