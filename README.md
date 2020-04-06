@@ -18,7 +18,7 @@ There are two main pieces I have added to the template.
 
 ### Observable Cache
 
-When you create a normal CLR Event from F# it also implements IObservable out of the box. That means instead of using event.Publish.Add ( or += in C# ) we can call Publish.Subscribe instead, passing a delegate and getting an IDisposable token back which allows us to cancel our subscription without a reference to the event itself.
+When you create a normal CLI Event from F# it also implements IObservable out of the box. That means instead of using event.Publish.Add ( or += in C# ) we can call Publish.Subscribe instead, passing a delegate and getting an IDisposable token back which allows us to cancel our subscription without a reference to the event itself.
 
 I wrap one of these events inside an F# MailboxProcessor, which also holds some cached state <'T>. You can post messages to the Mailbox in order to Subscribe to cache changes or Post a new state cache to subscribers.
 
