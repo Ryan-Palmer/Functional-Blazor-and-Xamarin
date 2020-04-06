@@ -36,7 +36,7 @@ It posts the newly generated model to the Razor components using one of the obse
 
 It is also set up to print each received message and new model to the debug console so you can see the state transitions. This makes debugging very easy as you can see every change.
 
-In this example project the clock label updates cause it to trigger a print every second, normally it would be spamming like that.
+In this example project the clock label updates cause it to trigger a print every second, normally it wouldn't be spamming like that.
 
 The implementation of all this is in the Program project and Module.
 
