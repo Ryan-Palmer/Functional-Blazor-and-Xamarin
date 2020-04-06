@@ -56,7 +56,7 @@ The final step is to compose all of the F# functions and register the Program ma
 
 Because everything is registered as Scoped, each Blazor Circuit (i.e. user session) gets it's own private Program loop and state. You can check this by looking at the Program model's Id when debugging. 
 
-You could however easily share state between circuits if the scoped Program loops access singleton / static data. This could allow for live collaborative working in theory.
+You could however easily share state between circuits if the scoped Program loops access a shared / global data resource. This could allow for live collaborative working in theory.
 
 #### Server-Side Blazor Considerations
 
