@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using static FunctionalBlazor.Program.Startup;
+using static FunctionalBlazor.Caching.Startup;
+using static FunctionalBlazor.Composition.Startup;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using FunctionalXamarin;
 
 namespace FunctionalAndroid
 {
-    class Startup
+    public class Startup
     {
+        internal static void ConfigureServices(HostBuilderContext ctx, IServiceCollection services)
+        {
+            services.ConfigureCaching();
+            services.ConfigureProgram();
+            services.ConfigureViewModels();
+            services.ConfigureFunctions();
+        }
     }
 }
