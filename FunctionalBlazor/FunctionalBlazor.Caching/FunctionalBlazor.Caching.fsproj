@@ -18,4 +18,8 @@
     <ProjectReference Include="..\FunctionalBlazor.Common\FunctionalBlazor.Common.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.1" />
+  </ItemGroup>
+
 </Project>
