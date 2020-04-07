@@ -90,7 +90,7 @@ Similarly the navigation pattern is just a quick example of a possible way to ha
 
 #### Xamarin and mixing languages
 
-This actually grew out of how I have been writing my Xamarin applications. I follow the same pattern but use Autofac for DI and MVVMLight for the model state binding. I like using C# on the front end because the tooling is rich and well supported, but F# for
+This actually grew out of how I have been writing my Xamarin applications. I follow the same pattern but use MVVMLight for the model state binding. I like using C# on the front end because the tooling is rich and well supported, but F# for
 the rest of my applications as, well, it's just awesome! I feel this approach currently offers the best of both worlds.
 
 I have added Xamarin Native projects to the solution which use the same core as the Blazor app to show how easy it is to use the same pattern. Again these are just quickly put together to give you the idea of how it can be set up, nav etc all need to be implemented properly in your favourite way.
