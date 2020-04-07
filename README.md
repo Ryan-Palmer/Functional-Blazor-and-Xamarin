@@ -1,4 +1,4 @@
-# FunctionalBlazor (+Xamarin!)
+# FunctionalBlazor (+ Xamarin!)
 
 This is a template for Blazor applications which uses a functional reactive style to update the UI.
 
