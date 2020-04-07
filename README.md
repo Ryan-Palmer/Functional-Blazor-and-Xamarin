@@ -62,7 +62,7 @@ I'm not an expert in Blazor, I only started playing with it this week really. I 
 
 That said however, I think Blazor is supposed to be very efficient at only sending the minimum amount of data to sync the browser DOM and the server's shadow DOM.
 
-One thing you might potetially want to be careful of is stuff like the clock display I have put on the Counter page. This is a Cmd.ofSub subscription set up in the Counter page's Init handler. It pumps a TimeChanged message into the updater every second, which sends a new model update to the UI. In this case it is a tiny text change but I imagine if it was a large update or happened at a fast enough rate you could hit some kind of issue. Maybe it would be fine, I just don't have any data to know. I have installed Application Insights on my own project so that I can keep an eye on the data flow and compute usage. The new live metrics are great to monitor everything during testing.
+One thing you might potentially want to be careful of is stuff like the clock display I have put on the Counter page. This is a Cmd.ofSub subscription set up in the Counter page's Init handler. It pumps a TimeChanged message into the updater every second, which sends a new model update to the UI. In this case it is a tiny text change but I imagine if it was a large update or happened at a fast enough rate you could hit some kind of issue. Maybe it would be fine, I just don't have any data to know. I have installed Application Insights on my own project so that I can keep an eye on the data flow and compute usage. The new live metrics are great to monitor everything during testing.
 
 #### Page update functions
 
