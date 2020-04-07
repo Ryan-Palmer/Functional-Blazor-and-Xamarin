@@ -3,6 +3,7 @@ using Microsoft.FSharp.Core;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using static FunctionalBlazor.Caching.CachingTypes;
@@ -31,46 +32,11 @@ namespace FunctionalBlazor.Web.Pages
             await BindModel();
             base.OnInitialized();
         }
-
+        
         async Task BindModel()
         {
             async void HandleModelUpdate(object sender, FSharpOption<ProgramModel> maybeProgramModel)
             {
-                void TryPerformPendingNavigation(CounterPageModel model)
-                {
-                    try
-                    {
-                        var (destination, id) = model.PendingNavigation.Value;
-                        if (_lastNavId != id)
-                        {
-                            _lastNavId = id;
-                            NavigationManager?.NavigateTo(destination);
-                            Program?.Post(
-                                ProgramMsg.NewCounterPageMessage(
-                                    CounterPageMsg.NavigationComplete));
-                        }
-                    }
-                    catch (NullReferenceException e) { }
-                }
-
-                async Task TryShowPendingAlert(CounterPageModel model)
-                {
-                    try
-                    {
-                        var (message, id) = model.PendingAlert.Value;
-                        if (_lastAlertId != id)
-                        {
-                            _lastAlertId = id;
-                            if (JSRuntime != null)
-                                await JSRuntime.InvokeAsync<object>("alert", message);
-                            Program?.Post(
-                                ProgramMsg.NewCounterPageMessage(
-                                    CounterPageMsg.AlertShown));
-                        }
-                    }
-                    catch (NullReferenceException e) { }
-                }
-
                 try
                 {
                     model = maybeProgramModel.Value.CounterPage;
@@ -127,6 +93,42 @@ namespace FunctionalBlazor.Web.Pages
                     CounterPageMsg.NewCounterPageError(
                         new Exception("Some custom error message!"))));
         }
+
+        void TryPerformPendingNavigation(CounterPageModel model)
+        {
+            try
+            {
+                var (destination, id) = model.PendingNavigation.Value;
+                if (_lastNavId != id)
+                {
+                    _lastNavId = id;
+                    NavigationManager?.NavigateTo(destination);
+                    Program?.Post(
+                        ProgramMsg.NewCounterPageMessage(
+                            CounterPageMsg.NavigationComplete));
+                }
+            }
+            catch (NullReferenceException e) { }
+        }
+
+        async Task TryShowPendingAlert(CounterPageModel model)
+        {
+            try
+            {
+                var (message, id) = model.PendingAlert.Value;
+                if (_lastAlertId != id)
+                {
+                    _lastAlertId = id;
+                    if (JSRuntime != null)
+                        await JSRuntime.InvokeAsync<object>("alert", message);
+                    Program?.Post(
+                        ProgramMsg.NewCounterPageMessage(
+                            CounterPageMsg.AlertShown));
+                }
+            }
+            catch (NullReferenceException e) { }
+        }
+
 
         public void Dispose()
         {
