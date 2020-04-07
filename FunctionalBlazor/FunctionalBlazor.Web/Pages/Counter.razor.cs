@@ -94,6 +94,7 @@ namespace FunctionalBlazor.Web.Pages
                         new Exception("Some custom error message!"))));
         }
 
+        [DebuggerNonUserCode] // Prevents spamming debugger with NullRef exception printing
         void TryPerformPendingNavigation(CounterPageModel model)
         {
             try
@@ -111,6 +112,7 @@ namespace FunctionalBlazor.Web.Pages
             catch (NullReferenceException e) { }
         }
 
+        [DebuggerNonUserCode] // Prevents spamming debugger with NullRef exception printing
         async Task TryShowPendingAlert(CounterPageModel model)
         {
             try
