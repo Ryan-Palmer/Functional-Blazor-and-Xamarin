@@ -23,6 +23,30 @@ namespace FunctionalAndroid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_counter);
             // resolve view model
+            FindSubViews();
+            SetBindings();
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            ConnectHandlers();
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            DisconnectHandlers();
+        }
+
+        protected override void OnDestroy()
+        {
+            DetachBindings();
+            base.OnDestroy();
+        }
+
+        void FindSubViews()
+        {
         }
 
         void SetBindings()
@@ -39,10 +63,6 @@ namespace FunctionalAndroid
             {
                 b.Detach();
             }
-        }
-
-        void FindSubViews(View view)
-        {
         }
 
         void ConnectHandlers()
@@ -76,7 +96,6 @@ namespace FunctionalAndroid
                 .Show();
 #nullable enable warnings
         }
-
 
         void HandleNavigate(object sender, string e)
         {
