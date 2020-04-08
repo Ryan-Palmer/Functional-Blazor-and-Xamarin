@@ -14,13 +14,6 @@ module CachingTypes =
         member this.OnPublish with get() = _onPublish
         member this.Invoke(arg : 'T) = _event.Trigger(this, arg)
 
-        
-
-
-    type Cache<'Tag,'Content> =
-        {
-            Content : 'Content
-        }
 
     type CacheCommand<'T> =
         | Update of 'T option

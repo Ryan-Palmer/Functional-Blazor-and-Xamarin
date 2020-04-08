@@ -3,7 +3,7 @@
 module Cache =
     open CachingTypes
 
-    let cacheProcessor<'T> =
+    let cache<'T> =
         MailboxProcessor<CacheOperation<'T>>.Start (fun inbox ->
             let rec innerLoop ((currentCache : 'T option),(eventBus : EventBus<'T option>))  =
                 async {
@@ -33,9 +33,9 @@ module Cache =
 
             innerLoop (None, new EventBus<'T option>()))
     
-    type ObservableCache<'T> () =
+    type Cache<'T> () =
         
-        let mailbox = cacheProcessor<'T>
+        let mailbox = cache<'T>
         
         let postCacheCommand
             (message : CacheCommand<'T>) =
@@ -44,3 +44,54 @@ module Cache =
         interface ICache<'T> with
             member this.Post (command : CacheCommand<'T>) =
                  (postCacheCommand command) |> Async.StartAsTask
+
+
+
+    /// Subscribes to memory cache updates.
+    ///
+    /// Immediately dispatches the disposable token back to the caller 
+    /// after subscription so they can stop updates.
+    //
+    /// From then on, whenever update received we dispatch the cache 
+    /// to caller.
+    ///
+    /// To use, just partially apply the appropriate cache during composition in 
+    /// Function Root then pass into the page updater that wants to subscribe.
+    ///
+    /// You get the cache by injecting it into the FunctionRoot constructor,
+    /// it is all set up, just ask for one in the same way that the IProgram cache
+    /// is being passed in.
+    ///
+    /// Call this func in the updater using as Cmd.OfSub because it isn't a one-time 
+    /// event, it needs a long held ref to the dispatch func to call back every
+    /// time an update comes in.
+    ///
+    /// As you can see, I usually use a tuple for the cache type where the first 
+    /// element acts as a tag, because the type effectively defines the 
+    /// 'communication channel' and this allows more than one channel of the 
+    /// same data type i.e. you could have ICache<TagOne*DataTypeOne> and also
+    /// ICache<TagTwo*DataTypeOne> 
+    ///
+    /// If you don't want to do that you could simplify this func to use
+    /// a single type like 'dispatchMessages' in the Messenger module
+    /// which is nearly identical.
+    ///
+    let dispatchCacheUpdates
+        (cache : ICache<'Tag*'Content>)
+        onCacheUpdated
+        onSubscribed
+        dispatch =
+        async {
+
+                let cacheUpdatedHandler (sender, (maybeCache : ('Tag*'Content) option)) =
+                    maybeCache
+                    |> Option.map (fun (tag,data) ->  data)
+                    |> onCacheUpdated
+                    |> dispatch
+
+                match! cache.Post(CacheCommand.Subscribe cacheUpdatedHandler) |> Async.AwaitTask with
+                | CacheResult.Subscribed token -> dispatch (onSubscribed token)     
+                | _ -> ()
+
+            } |> Async.Start
+    

@@ -32,7 +32,15 @@ namespace FunctionalAndroid
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_counter);
+
+            // Instead of resolving this directly from the root scope, a much nicer solution is to create an Inject attribute
+            // and decorate dependecy properties with it, then have a base Activity which maintains its own child scope whilst
+            // it is alive. That way it can resolve ViewModels etc at the individual Activity scope, and you can even pick when to create /
+            // destroy them in the Activity's lifecycle. I have examples with Autofac, I haven't ported them to the Microsoft
+            // container yet but it shouldn't be too hard. Give me a shout if you want to see more.
             _viewModel = MainApplication.RootServiceProvider?.GetService(typeof(CounterViewModel)) as CounterViewModel;
+            
+            
             FindSubViews();
             SetBindings();
         }

@@ -9,13 +9,15 @@
     <Compile Include="CachingTypes.fs" />
     <Compile Include="Messenger.fs" />
     <Compile Include="Cache.fs" />
-    <Compile Include="MessageManager.fs" />
-    <Compile Include="CacheManager.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FunctionalBlazor.Common\FunctionalBlazor.Common.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.1" />
   </ItemGroup>
 
 </Project>
