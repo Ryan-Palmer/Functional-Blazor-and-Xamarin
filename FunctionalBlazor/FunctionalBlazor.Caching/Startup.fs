@@ -13,4 +13,4 @@ type Startup  () =
     [<Extension>]
     static member inline ConfigureCaching (services : IServiceCollection) =
         services.AddScoped(typedefof<IMessenger<_>>,typedefof<Messenger<_>>) |> ignore
-        services.AddScoped(typedefof<ICache<_>>,typedefof<ObservableCache<_>>) |> ignore
+        services.AddScoped(typedefof<ICache<_>>,typedefof<Cache<_>>) |> ignore

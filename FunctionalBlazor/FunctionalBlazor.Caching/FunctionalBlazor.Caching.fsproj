@@ -9,8 +9,6 @@
     <Compile Include="CachingTypes.fs" />
     <Compile Include="Messenger.fs" />
     <Compile Include="Cache.fs" />
-    <Compile Include="MessageManager.fs" />
-    <Compile Include="CacheManager.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>
 

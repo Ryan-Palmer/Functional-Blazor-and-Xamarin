@@ -7,6 +7,13 @@ It has no external dependencies outside of ASP.Net Core and F# (apart from the u
 The Blazor project is essentially the standard C# Blazor template provided by Visual Studio.
 I have just removed the Weather Data page and added a few example controls and behaviours to the Counter page.
 
+## It is NOT a framework!!!
+
+Nobody needs another framework in their life. There is no magic, *no inheritance*, no special attributes. Just a small amount of sensible code that does the job. That's why I called it a template.
+
+You can switch out any and all parts of which there are few - it really is just an example of what I think is a good way of handling state safely and modelling your application flows explicitly.
+
+Run it, mess about with it, break it, bend it to your will. 
 
 ## How it works
 
@@ -70,7 +77,7 @@ I implement the child page updaters as Mailboxes as well. The reason for this is
 
 If you don't need that or you don't mind stashing those tokens in the page model you could just use plain old functions. 
 
-If you do want to use the messengers and caches to communicate between pages, there are functions in the CacheManger and MessageManager modules to get you started. Call them using Cmd.ofSub passing the messages which handle the IDisposable token and the ongoing message/cache dispatches. If that doesn't make sense raise an issue and I'll demonstrate, it really is simple.
+If you do want to use the messengers and caches to communicate between pages, there are dispatch functions in the Cache and Message modules to get you started with explanations. If it doesn't make sense raise an issue and I'll demonstrate, it really is simple.
 
 #### UI Updates
 
@@ -82,7 +89,7 @@ You can see this in the nested Counter.Razor.cs code file.
 
 UI events are hooked up to methods which send messages to the Program Mailbox. you can see this in the Counter.razor file.
 
-The text box is hooked up one way to send text changes to the update function. If you wanted to also hook a text property in the model up to the text box contents (i.e. a two way binding) you would probably need to debounce it somehow to stop it looping, there are lots of easy ways to achieve that, including the Action extension I have left in the Xamarin Common folder.
+The text box is hooked up one way to send text changes to the update function. If you wanted to also hook a text property in the model up to the text box contents (i.e. a two way binding) you would probably need to debounce it somehow to stop it looping, there are lots of easy ways to achieve that, including the Action extension I have left in the Xamarin Common folder with instructions.
 
 Notice that the model updates are invoked on the render context, they will arrive from the cache on a background thread which cannot update the UI properly.
 
@@ -98,6 +105,10 @@ This actually grew out of how I have been writing my Xamarin applications. I fol
 the rest of my applications as, well, it's just awesome! I feel this approach currently offers the best of both worlds.
 
 I have added Xamarin Native projects to the solution which use the same core as the Blazor app to show how easy it is to use the same pattern. Again these are just quickly put together to give you the idea of how it can be set up, nav etc all need to be implemented properly in your favourite way.
+
+They use the same DI as ASP, from Microsoft.Extensions.Hosting, so they can easily hook into the same core as the Blazor app. I create the ServiceCollection in MainApplication / AppDelegate and call Startup the same way as usual.
+
+Both the iOS and Android apps use the same ViewModel. You could easily switch MVVMlight out for James Montemagno's MVVMHelpers or something or even implement INotifyProprtyChanged yourself, it isn't really important.
 
 #### Tests
 

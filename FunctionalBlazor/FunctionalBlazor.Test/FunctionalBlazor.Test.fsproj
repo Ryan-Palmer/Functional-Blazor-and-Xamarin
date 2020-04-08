@@ -6,25 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Common\AutoMoqDataAttribute.fs" />
-    <Compile Include="Common\AutoMoqInlineDataAttribute.fs" />
     <Compile Include="Common\FoqNetCoreCompat.fs" />
     <Compile Include="Program\Pages\CounterPage_Test.fs" />
     <Compile Include="Program\Program_Test.fs" />
-    <Compile Include="Caching\MessageManager_Test.fs" />
-    <Compile Include="Caching\CacheManager_Test.fs" />
     <Compile Include="Caching\Messenger_Test.fs" />
     <Compile Include="Caching\Cache_Test.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture.AutoMoq" Version="4.11.0" />
     <PackageReference Include="AutoFixture.NUnit3" Version="4.11.0" />
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="FsUnit" Version="3.8.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.0-preview-20200226-03" />
-    <PackageReference Include="Moq" Version="4.13.1" />
-    <PackageReference Include="Moq.FSharp.Extensions" Version="0.2.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
