@@ -66,7 +66,11 @@ One thing you might potentially want to be careful of is stuff like the clock di
 
 #### Page update functions
 
-I implement the child page updaters as Mailboxes as well. The reason for this is that I often use them to hold IDisposable tokens from cache or message subscriptions. It allows them to be held outside the page model. If you don't need that functionality or you don't mind stashing them in the model you could just use plain old functions.
+I implement the child page updaters as Mailboxes as well. The reason for this is that I often use them to hold IDisposable tokens from cache or message subscriptions. It allows those tokens to to be held outside the page model and for pages to communicate messages or state. 
+
+If you don't need that or you don't mind stashing those tokens in the page model you could just use plain old functions. 
+
+If you do want to use the messengers and caches to communicate between pages, there are functions in the CacheManger and MessageManager modules to get you started. Call them using Cmd.ofSub passing the messages which handle the IDisposable token and the ongoing message/cache dispatches. If that doesn't make sense raise an issue and I'll demonstrate, it really is simple.
 
 #### UI Updates
 
@@ -78,7 +82,7 @@ You can see this in the nested Counter.Razor.cs code file.
 
 UI events are hooked up to methods which send messages to the Program Mailbox. you can see this in the Counter.razor file.
 
-The text box is hooked up one way to send text changes to the update function. If you wanted to also hook a text property in the model up to the text box contents (i.e. a two way binding) you would probably need to debounce it somehow to stop it looping, there are lots of easy ways to achieve that.
+The text box is hooked up one way to send text changes to the update function. If you wanted to also hook a text property in the model up to the text box contents (i.e. a two way binding) you would probably need to debounce it somehow to stop it looping, there are lots of easy ways to achieve that, including the Action extension I have left in the Xamarin Common folder.
 
 Notice that the model updates are invoked on the render context, they will arrive from the cache on a background thread which cannot update the UI properly.
 
