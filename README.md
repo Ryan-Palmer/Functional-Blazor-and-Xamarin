@@ -83,7 +83,7 @@ If you do want to use the messengers and caches to communicate between pages, th
 
 The Razor component takes the appropriate part of the Program model and overwrites its current page model, then calls StateHasChanged() to refresh the UI.
 
-The Razor component subscribes to the model updates in OnInitialisedAsync and disposes the description in its Dispose method which is automatically called when the user navigates away from the page.
+The Razor component subscribes to the model updates in OnInitialisedAsync and disposes the subscription token in its Dispose method which is automatically called when the user navigates away from the page.
 
 You can see this in the nested Counter.Razor.cs code file.
 
