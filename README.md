@@ -106,7 +106,7 @@ the rest of my applications as, well, it's just awesome! I feel this approach cu
 
 I have added Xamarin Native projects to the solution which use the same core as the Blazor app to show how easy it is to use the same pattern. Again these are just quickly put together to give you the idea of how it can be set up, nav etc all need to be implemented properly in your favourite way.
 
-They use the same DI as ASP, from Microsoft.Extensions.Hosting, so they can easily hook into the same core as the Blazor app. I create the ServiceCollection in MainApplication / AppDelegate and call Startup the same way as usual.
+They use the same DI as ASP, from Microsoft.Extensions.Hosting, so they can easily hook into the same core as the Blazor app. I create the ServiceProvider in MainApplication / AppDelegate and call Startup the same way as usual.
 
 Both the iOS and Android apps use the same ViewModel. You could easily switch MVVMlight out for James Montemagno's MVVMHelpers or something or even implement INotifyProprtyChanged yourself, it isn't really important.
 
