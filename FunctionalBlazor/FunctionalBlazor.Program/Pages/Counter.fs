@@ -30,8 +30,7 @@ module Counter =
                     | CounterPageMsg.Init -> 
                         let timeSubCmd = Cmd.ofSub (subscribeToTimeString TimeChanged)
                         model, timeSubCmd
-                    | CounterPageMsg.TimeChanged time -> 
-                        { model with UTC = time.ToLongTimeString() }, Cmd.none
+                    | CounterPageMsg.TimeChanged time -> { model with UTC = time.ToLongTimeString() }, Cmd.none
                     | CounterPageMsg.IncreaseCount ->  { model with Count = model.Count + 1 }, Cmd.none
                     | CounterPageMsg.ItemSelected id -> { model with PendingNavigation = Some ((sprintf "items/%s" id), createGuid()) }, Cmd.none
                     | CounterPageMsg.SetUsername usr -> { model with Title = (sprintf "Hello %s!") usr}, Cmd.none

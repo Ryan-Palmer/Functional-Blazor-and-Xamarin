@@ -8,7 +8,8 @@ module CounterPage_Test =
     open AutoFixture.NUnit3
     open FunctionalBlazor.Program.ProgramTypes
     open FunctionalBlazor.Program.Pages
-
+    open FoqNetCoreCompat
+    
     let testId = Guid.NewGuid()
     let createGuid () = testId
     let tsGen onUpdated dispatch = ()
@@ -24,6 +25,31 @@ module CounterPage_Test =
             |> Async.RunSynchronously
 
         outputModel |> shouldEqual inputModel
+
+
+    [<Test>][<AutoData>]
+    let ``Init returns init selected survey cache observer command``
+        (inputModel : CounterPageModel)
+        (time : DateTime) =
+
+        let token = Mock.Of<IDisposable>()
+        let mutable timeUpdatesConnected = false;
+
+        let tsGen updateMsg = 
+            (fun dispatch ->
+                match updateMsg time with
+                | TimeChanged s -> timeUpdatesConnected <- true
+                | _ -> ())
+
+        let sut = Counter.update createGuid tsGen
+
+        let _, nextCmd = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel -> inputModel, CounterPageMsg.Init, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        Cmd.exec (fun _ -> ()) nextCmd
+        
+        timeUpdatesConnected |> shouldEqual true
 
 
     [<Test>][<AutoData>]
@@ -51,6 +77,34 @@ module CounterPage_Test =
 
         let _, nextCmd = 
             sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.NavigationComplete, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        nextCmd |> shouldEqual Cmd.none
+
+
+    [<Test>][<AutoData>]
+    let ``TimeChanged returns model with updated time`` 
+        (inputModel : CounterPageModel)
+        (time : DateTime) =
+
+        let sut = Counter.update createGuid tsGen
+
+        let outputModel, _ = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.TimeChanged time, asyncReplyChannel)
+            |> Async.RunSynchronously
+
+        outputModel.UTC |> shouldEqual (time.ToLongTimeString())
+
+
+    [<Test>][<AutoData>]
+    let ``TimeChanged returns no further commands`` 
+        (inputModel : CounterPageModel) 
+        (time : DateTime) =
+
+        let sut = Counter.update createGuid tsGen
+
+        let _, nextCmd = 
+            sut.PostAndAsyncReply(fun asyncReplyChannel ->  inputModel, CounterPageMsg.TimeChanged time, asyncReplyChannel)
             |> Async.RunSynchronously
 
         nextCmd |> shouldEqual Cmd.none
