@@ -66,7 +66,7 @@ One thing you might potentially want to be careful of is stuff like the clock di
 
 #### Page update functions
 
-I implement the child page updaters as Mailboxes as well. The reason for this is that I often use them to hold IDisposable tokens from cache or message subscriptions. It allows those tokens to to be held outside the page model and for pages to communicate messages or state. 
+I implement the child page updaters as Mailboxes as well. The reason for this is that I often use them to hold IDisposable tokens from cache or message subscriptions. It allows those tokens to to be held outside the page model and for pages to communicate using messages or stashed data. 
 
 If you don't need that or you don't mind stashing those tokens in the page model you could just use plain old functions. 
 
