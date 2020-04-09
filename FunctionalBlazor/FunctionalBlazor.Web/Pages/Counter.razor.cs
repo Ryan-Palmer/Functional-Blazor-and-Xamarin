@@ -27,12 +27,15 @@ namespace FunctionalBlazor.Web.Pages
         Guid _lastNavId = Guid.Empty;
         Guid _lastAlertId = Guid.Empty;
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            await BindModel();
-            base.OnInitialized();
+            await base.OnAfterRenderAsync(firstRender);
+            if (firstRender)
+            {
+                await BindModel();
+            }
         }
-        
+
         async Task BindModel()
         {
             async void HandleModelUpdate(object sender, FSharpOption<ProgramModel> maybeProgramModel)
