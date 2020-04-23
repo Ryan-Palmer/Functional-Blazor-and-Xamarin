@@ -42,7 +42,10 @@ namespace FunctionalBlazor.Web.Pages
             {
                 try
                 {
+                    // Make sure model assignment happens on Mailbox thread (-not- invoked on the UI thread) otherwise 
+                    // the state can get overwritten whilst being rendered
                     model = maybeProgramModel.Value.CounterPage;
+
                     await InvokeAsync(async () => // This makes sure all updates happens on UI thread
                     {
                         StateHasChanged();
